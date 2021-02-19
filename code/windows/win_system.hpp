@@ -1,13 +1,13 @@
 #pragma once
 
-#include "win_state_module.hpp"
+#include "win_submodule.hpp"
 
 namespace Windows
 {
-	class SystemModule : public StateModule
+	class System : public Submodule
 	{
 	public:
-		SystemModule(Internal&);
+		System(Internal&);
 		void init();
 		void quit();
 	};

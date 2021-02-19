@@ -1,12 +1,12 @@
-#include "win_window_module.hpp"
+#include "win_window.hpp"
 #include "win_internal.hpp"
-#include "win_system_module.hpp"
+#include "win_system.hpp"
 
-Windows::WindowModule::WindowModule(Internal& in_internal) : StateModule{in_internal}
+Windows::Window::Window(Internal& in_internal) : Submodule{in_internal}
 {
 }
 
-void Windows::WindowModule::init()
+void Windows::Window::init()
 {
 	const HINSTANCE hInstance = internal->hInstance;
 
@@ -43,7 +43,7 @@ void Windows::WindowModule::init()
 	static_assert(sizeof(LONG_PTR) >= sizeof(void*), "Bad cast to LONG_PTR");
 }
 
-void Windows::WindowModule::pump_message_queue()
+void Windows::Window::pump_message_queue()
 {
 	MSG msg;
 	while(PeekMessageA(&msg, 0, 0, 0, PM_NOREMOVE))
@@ -60,13 +60,13 @@ void Windows::WindowModule::pump_message_queue()
 	}
 }
 
-LRESULT CALLBACK Windows::WindowModule::main_window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Windows::Window::main_window_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	WindowModule* window_module = (WindowModule*)GetWindowLongPtrA(hWnd, GWLP_USERDATA);
-	return window_module->main_window_proc_imp(hWnd, uMsg, wParam, lParam);
+	Window* window = (Window*)GetWindowLongPtrA(hWnd, GWLP_USERDATA);
+	return window->main_window_proc_imp(hWnd, uMsg, wParam, lParam);
 }
 
-LRESULT Windows::WindowModule::main_window_proc_imp(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT Windows::Window::main_window_proc_imp(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
 	{
@@ -74,7 +74,7 @@ LRESULT Windows::WindowModule::main_window_proc_imp(HWND hWnd, UINT uMsg, WPARAM
 		
 		case WM_CLOSE:
 		{
-			SystemModule& sys = *internal->system_module;
+			System& sys = *internal->system;
 			sys.quit();
 			return 0;
 		}

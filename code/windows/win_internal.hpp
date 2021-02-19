@@ -4,15 +4,17 @@
 
 namespace Windows
 {
-	class SystemModule;
-	class WindowModule;
+	class System;
+	class Window;
 
 	class Internal
 	{
 	public:
-		HINSTANCE     hInstance;
-		SystemModule* system_module;
-		WindowModule* window_module;
+		HINSTANCE hInstance;
+
+		// Modules
+		System* system;
+		Window* window;
 	};
 }
 // namespace Windows

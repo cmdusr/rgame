@@ -1,7 +1,7 @@
 #include <windows.h>
 #include "win_internal.hpp"
-#include "win_window_module.hpp"
-#include "win_system_module.hpp"
+#include "win_window.hpp"
+#include "win_system.hpp"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -9,21 +9,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	static Windows::Internal internal{};
 
 	// Modules
-	static Windows::SystemModule system_module{internal};
-	static Windows::WindowModule window_module{internal};
+	static Windows::System system{internal};
+	static Windows::Window window{internal};
 
 	// Initialise internal
-	internal.hInstance     = hInstance;
-	internal.system_module = &system_module;
-	internal.window_module = &window_module;
+	internal.hInstance = hInstance;
+	internal.system    = &system;
+	internal.window    = &window;
 
 	// Initialise modules
-	system_module.init();
-	window_module.init();
+	system.init();
+	window.init();
 
 	// Main Loop
 	for(;;)
 	{
-		window_module.pump_message_queue();
+		window.pump_message_queue();
 	}
 }

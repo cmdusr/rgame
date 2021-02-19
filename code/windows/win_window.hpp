@@ -1,14 +1,14 @@
 #pragma once
 
-#include "win_state_module.hpp"
+#include "win_submodule.hpp"
 #include <windows.h>
 
 namespace Windows
 {
-	class WindowModule : public StateModule
+	class Window : public Submodule
 	{
 	public:
-		WindowModule(Internal&);
+		Window(Internal&);
 		void init();
 		void pump_message_queue();
 	private:
@@ -22,4 +22,3 @@ namespace Windows
 	};
 }
 // namespace Windows
-

@@ -4,10 +4,10 @@ namespace Windows
 {
 	class Internal;
 
-	class StateModule
+	class Submodule
 	{
 	public:
-		StateModule(Internal& in_internal);
+		Submodule(Internal& in_internal);
 	protected:
 		Internal* internal;
 	};
