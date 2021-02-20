@@ -7,6 +7,14 @@ set LDFLAGS=-incremental:no user32.lib shell32.lib gdi32.lib
 set Target=rgame
 set TargetPath=..\code\unity\windows_unity.cpp
 
+rem Search for CC
+for %%X in (%CC%) do (set FOUND=%%~$PATH:X)
+if not defined FOUND (
+	echo Error: Cannot find cl.exe. Setup your devlopment environment to include cl.exe
+	echo This can be done by using vcvarsall.bat if running from a console
+	goto END
+)
+
 if not exist code (
 	echo Error: Invalid directory. Must be run from the root directory
 	goto END
