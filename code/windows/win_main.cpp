@@ -24,11 +24,6 @@ void Windows::Platform::setup_console()
 	freopen_s(&temp, "CONOUT$", "w", stderr);
 }
 
-bool Windows::Platform::should_reload_gamelib(const GameLib& lib)
-{
-	return check_file_exists(lib.alt_path);
-}
-
 bool Windows::Platform::check_file_exists(const char* path)
 {
 	// Exists and is not a directory
@@ -36,15 +31,23 @@ bool Windows::Platform::check_file_exists(const char* path)
 	return (attrib != INVALID_FILE_ATTRIBUTES) && !(attrib & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-// Assume .path fields are valid
+I_Game* Windows::Platform::load_gamelib(const char* name, GameLib& lib)
+{
+	// Setup paths
+	memset(lib.path, 0, sizeof(lib.path));
+	strcpy_s(lib.path, name);
+	strcat_s(lib.path, ".dll");
+
+	memset(lib.alt_path, 0, sizeof(lib.alt_path));
+	strcpy_s(lib.alt_path, name);
+	strcat_s(lib.alt_path, "_temp.dll");
+
+	return load_gamelib_validpaths(lib);
+}
+
+// GameLib path fields must be valid
 I_Game* Windows::Platform::load_gamelib_validpaths(GameLib& lib)
 {
-	if(check_file_exists(lib.alt_path))
-	{
-		CopyFile(lib.alt_path, lib.path, false);
-		DeleteFile(lib.alt_path);
-	}
-
 	if(!check_file_exists(lib.path))
 	{
 		return nullptr;
@@ -64,29 +67,22 @@ I_Game* Windows::Platform::load_gamelib_validpaths(GameLib& lib)
 	return get_api(internal.core);
 }
 
-I_Game* Windows::Platform::load_gamelib(const char* name, GameLib& lib)
+bool Windows::Platform::should_reload_gamelib(const GameLib& lib)
 {
-	// Setup paths
-	memset(lib.path, 0, sizeof(lib.path));
-	strcpy_s(lib.path, name);
-	strcat_s(lib.path, ".dll");
+	return check_file_exists(lib.alt_path);
+}
 
-	memset(lib.alt_path, 0, sizeof(lib.alt_path));
-	strcpy_s(lib.alt_path, name);
-	strcat_s(lib.alt_path, "_temp.dll");
-
+I_Game* Windows::Platform::reload_gamelib(GameLib& lib)
+{
+	FreeLibrary(lib.handle);
+	CopyFile(lib.alt_path, lib.path, false);
+	DeleteFile(lib.alt_path);
 	return load_gamelib_validpaths(lib);
 }
 
 void Windows::Platform::unload_gamelib(GameLib& lib)
 {
 	FreeLibrary(lib.handle);
-}
-
-I_Game* Windows::Platform::reload_gamelib(GameLib& lib)
-{
-	unload_gamelib(lib);
-	return load_gamelib_validpaths(lib);
 }
 
 int Windows::Platform::main(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
