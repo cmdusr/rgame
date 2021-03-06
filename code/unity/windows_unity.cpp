@@ -2,6 +2,5 @@
 
 #include "windows/win_main.cpp"
 #include "windows/win_window.cpp"
-#include "windows/win_renderer_gdi.cpp"
 
 #include "core_unity.cpp"

@@ -13,9 +13,7 @@ namespace Windows
 		class I_Core*     core;
 
 		// Modules
-		class System*      system;
-		class Window*      window;
-		class GDIRenderer* gdi_renderer;
+		class Window* window;
 	};
 
 	class Submodule
