@@ -10,11 +10,7 @@ I_Game* get_game_api(I_Core* core)
 
 void RSnake::init()
 {
-#if 0
-	internal.core->print_red();
-#else
-	internal.core->print_blue();
-#endif
+
 }
 
 void RSnake::update()

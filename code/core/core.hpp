@@ -12,8 +12,6 @@ public:
 	void cleanup();
 	void update();
 
-	CORE_API void print_red();
-	CORE_API void print_blue();
 	CORE_API void quit();
 private:
 	const char* gamelib_name = "game";

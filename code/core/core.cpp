@@ -43,15 +43,3 @@ void Core::quit()
 {
 	platform->quit();
 }
-
-#include <windows.h>
-
-void Core::print_red()
-{
-	OutputDebugString("Red\n");
-}
-
-void Core::print_blue()
-{
-	OutputDebugString("Blue\n");
-}
