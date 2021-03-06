@@ -1,23 +1,28 @@
 #include "main.hpp"
 
-Core::Main::Main(Platform& in_platform) :
-	platform{&in_platform}
+Core::Main::Main(I_Platform* in_platform) :
+	platform{in_platform}
 {
 }
 
 void Core::Main::init()
 {
-	platform->open_game_lib(game_lib_name, game_lib);
-	game_lib.api->init();
+	game = platform->load_gamelib(gamelib_name, gamelib);
 }
 
 void Core::Main::cleanup()
 {
-	platform->close_game_lib(game_lib);
+	
 }
 
 void Core::Main::update()
 {
-	platform->refresh_game_lib(game_lib);
-	game_lib.api->update();
+	if(!game)
+	{
+		game = platform->load_gamelib(gamelib_name, gamelib);
+	}
+	if(platform->should_reload_gamelib(gamelib))
+	{
+		platform->reload_gamelib(gamelib);
+	}
 }

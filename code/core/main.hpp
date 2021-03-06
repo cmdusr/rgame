@@ -1,22 +1,23 @@
 #pragma once
 
-#include "../modules/game.hpp"
 #include "../modules/platform.hpp"
+#include "../modules/core.hpp"
+#include "../modules/game.hpp"
 
 namespace Core
 {
-	class Main
+	class Main final : public I_Core
 	{
 	public:
-		Main(Platform&);
+		Main(I_Platform*);
 		void init();
 		void cleanup();
 		void update();
 	private:
-		constexpr static const char* game_lib_name = "game";
-
-		Platform*         platform;
-		Platform::GameLib game_lib;
+		const char* gamelib_name = "game";
+		GameLib     gamelib;
+		I_Game*     game;
+		I_Platform* platform;
 	};
 }
 // namespace Core

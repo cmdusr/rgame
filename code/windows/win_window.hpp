@@ -1,6 +1,6 @@
 #pragma once
 
-#include "win_submodule.hpp"
+#include "win_internal.hpp"
 #include <windows.h>
 
 namespace Windows

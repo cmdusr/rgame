@@ -33,7 +33,7 @@ if NOT EXIST build (
 
 pushd build
 
-%CC% %CCFLAGS% /Fe%Game%   %GamePath%   /LD /link %LDFLAGS% /PDB:%Game%_%random%.pdb /Export:get_game_api
+rem %CC% %CCFLAGS% /Fe%Game%   %GamePath%   /LD /link %LDFLAGS% /PDB:%Game%_%random%.pdb /Export:get_game_api
 %CC% %CCFLAGS% /Fe%Target% %TargetPath%     /link %LDFLAGS% user32.lib shell32.lib gdi32.lib
 
 move /y *.pdb ..\bin

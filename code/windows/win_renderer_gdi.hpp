@@ -1,30 +1,11 @@
 #pragma once
 
-#include "win_submodule.hpp"
+#include "win_internal.hpp"
+#include "../common/data.hpp"
 #include <windows.h>
 
 namespace Windows
 {
-	struct Vec2
-	{
-		float x;
-		float y;
-	};
-
-	struct Colour
-	{
-		float r;
-		float g;
-		float b;
-		float a;
-	};
-
-	struct Quad
-	{
-		Vec2 position;
-		Vec2 size;
-	};
-
 	inline Quad rect_to_quad(RECT rect)
 	{
 		Quad quad;
@@ -44,16 +25,6 @@ namespace Windows
 		rect.bottom = quad.position.y + quad.size.y;
 		return rect;
 	}
-
-	// Run the game
-	// This is what I want to draw
-	
-	// Draw quads
-	// Draw coloured quads
-	// Draw textured quads
-	// Draw text
-	// Draw lines
-	// Draw points
 
 	class GDIRenderer : public Submodule
 	{

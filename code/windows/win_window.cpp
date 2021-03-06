@@ -1,6 +1,6 @@
 #include "win_window.hpp"
 #include "win_internal.hpp"
-#include "win_system.hpp"
+#include "../modules/platform.hpp"
 
 Windows::Window::Window(Internal& in_internal) : Submodule{in_internal}
 {
@@ -74,9 +74,7 @@ LRESULT Windows::Window::main_window_proc_imp(HWND hWnd, UINT uMsg, WPARAM wPara
 
 		case WM_CLOSE:
 		{
-			System& sys = *internal->system;
-			sys.quit();
-			return 0;
+			internal->platform->quit();
 		}
 		break;
 	}

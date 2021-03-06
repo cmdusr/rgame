@@ -1,13 +1,22 @@
 #pragma once
 
-class Game;
+#define DLL_GAME
 
-typedef Game* (*GetGameApiFunction)();
+#if defined(DLL_GAME)
+	#define GAME_API virtual
+#else
+	#define GAME_API
+#endif
+
+class I_Core;
+class I_Game;
+
+typedef I_Game* (*GetGameApiFunction)(I_Core*);
 static const char* game_api_function_name = "get_game_api";
 
-class Game
+class I_Game
 {
 public:
-	virtual void init()   = 0;
-	virtual void update() = 0;
+	GAME_API void init();
+	GAME_API void update();
 };
