@@ -59,14 +59,22 @@ if %core_locked% EQU 0 (
 	)
 )
 
+rem VisualStudio does not unload .pdb when .dll is unloaded.
+rem Create new .pdb so that it can be loaded and not distrub existing .pdb
 set Game_pdb=%Game%_%random%.pdb
-%CC% %CCFLAGS% /Fe%Game% %GamePath% /LD /link %LDFLAGS% /PDB:%Game_pdb% /Export:get_game_api
-move /y %Game_pdb% ..\bin
 
-if %game_locked% EQU 0 (
-	move /y %game%.dll ..\bin
-) else (
-	move /y %game%.dll ..\bin\%game%_temp.dll
+%CC% %CCFLAGS% /Fe%Game% %GamePath% /LD /link %LDFLAGS% /PDB:%Game_pdb% /Export:get_game_api
+
+if exist %Game_pdb% (
+	move /y %Game_pdb% ..\bin
+)
+
+if exist %game%.dll (
+	if %game_locked% EQU 0 (
+		move /y %game%.dll ..\bin
+	) else (
+		move /y %game%.dll ..\bin\%game%_temp.dll
+	)
 )
 
 popd
