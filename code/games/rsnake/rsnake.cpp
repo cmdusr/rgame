@@ -69,10 +69,41 @@ void RSnake::update_input()
 		switch(input_events[i].id)
 		{
 			default: break; // Do nothing
-			case InputEvent::ID::Up:    heading = Heading::Up;    break;
-			case InputEvent::ID::Down:  heading = Heading::Down;  break;
-			case InputEvent::ID::Left:  heading = Heading::Left;  break;
-			case InputEvent::ID::Right: heading = Heading::Right; break;
+			case InputEvent::ID::Up:
+			{
+				if(heading != Heading::Down)
+				{
+					heading = Heading::Up;
+				}
+			}
+			break;
+
+			case InputEvent::ID::Down:
+			{
+				if(heading != Heading::Up)
+				{
+					heading = Heading::Down;
+				}
+			}
+			break;
+
+			case InputEvent::ID::Left:
+			{
+				if(heading != Heading::Right)
+				{
+					heading = Heading::Left;
+				}
+			}
+			break;
+
+			case InputEvent::ID::Right:
+			{
+				if(heading != Heading::Left)
+				{
+					heading = Heading::Right;
+				}
+			}
+			break;
 		}
 	}
 
