@@ -1,6 +1,8 @@
 #include "rsnake.hpp"
 #include "../../modules/platform.hpp"
 #include <cstring>
+#include <cstdlib>
+#include <ctime>
 
 I_Game* get_game_api(GameImport game_import)
 {
@@ -16,6 +18,8 @@ RSnake::RSnake(GameImport game_import) :
 
 void RSnake::init()
 {
+	srand(time(NULL));
+
 	heading = Heading::Right;
 	head = 0;
 	tail = 0;
@@ -40,7 +44,22 @@ void RSnake::init()
 		tilemap[pos.x][pos.y] = Tile::Snake;
 	}
 
-//	tilemap[8][5] = Tile::Food;
+	new_food();
+}
+
+void RSnake::new_food()
+{
+	size_t r = rand() % flat_size(tilemap);
+	Position pos;
+	do
+	{
+		pos.x = r % array_size_1(tilemap);
+		pos.y = r / array_size_2(tilemap);
+		r = (r + 1) % flat_size(tilemap);
+	}
+	while(tilemap[pos.x][pos.y] != Tile::Empty);
+
+	tilemap[pos.x][pos.y] = Tile::Food;
 }
 
 void RSnake::update_input()
@@ -123,6 +142,8 @@ void RSnake::update_gameplay()
 			tilemap[new_head.x][new_head.y] = Tile::Snake;
 
 			// Don't remove / advance tail -> Grows snake by 1
+			
+			new_food();
 		}
 		break;
 

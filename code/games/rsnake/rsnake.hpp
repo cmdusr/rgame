@@ -81,4 +81,5 @@ private:
 	void update_input();
 	void update_gameplay();
 	void update_screen();
+	void new_food();
 };
