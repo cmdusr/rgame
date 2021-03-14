@@ -16,15 +16,31 @@ RSnake::RSnake(GameImport game_import) :
 
 void RSnake::init()
 {
+	heading = Heading::Right;
 	head = 0;
 	tail = 0;
 	body[head].x = 5;
 	body[head].y = 5;
 
-	tilemap[8][5] = Tile::Food;
-	tilemap[8][6] = Tile::Food;
-	tilemap[8][8] = Tile::Food;
-	tilemap[8][9] = Tile::Food;
+	head++;
+	body[head].x = 6;
+	body[head].y = 5;
+
+	head++;
+	body[head].x = 7;
+	body[head].y = 5;
+
+	head++;
+	body[head].x = 8;
+	body[head].y = 5;
+
+	for(size_t i = 0; i <= head; ++i)
+	{
+		Position pos = body[i];
+		tilemap[pos.x][pos.y] = Tile::Snake;
+	}
+
+//	tilemap[8][5] = Tile::Food;
 }
 
 void RSnake::update_input()
