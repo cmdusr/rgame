@@ -9,6 +9,7 @@ class RSnake : public I_Game
 {
 public:
 	RSnake(GameImport);
+	RSnake() = default;
 	GAME_API void init();
 	GAME_API void update();
 	GAME_API void inform(InputEvent);

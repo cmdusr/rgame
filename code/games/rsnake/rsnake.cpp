@@ -8,8 +8,9 @@ I_Game* get_game_api(GameImport game_import)
 }
 
 RSnake::RSnake(GameImport game_import) :
-	platform{game_import.platform}
+	RSnake()
 {
+	platform = game_import.platform;
 }
 
 void RSnake::init()
