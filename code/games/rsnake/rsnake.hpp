@@ -78,6 +78,7 @@ private:
 	size_t  head;
 	size_t  tail;
 
+	void reset();
 	void update_input();
 	void update_gameplay();
 	void update_screen();

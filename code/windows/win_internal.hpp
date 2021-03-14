@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../modules/game.hpp"
-#include "../rcom/array.hpp"
 #include <windows.h>
 
 namespace Windows

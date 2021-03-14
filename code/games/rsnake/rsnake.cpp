@@ -19,6 +19,18 @@ RSnake::RSnake(GameImport game_import) :
 void RSnake::init()
 {
 	srand(time(NULL));
+	reset();
+}
+
+void RSnake::reset()
+{
+	for(size_t i = 0; i < array_size_1(tilemap); ++i)
+	{
+		for(size_t j = 0; j < array_size_2(tilemap); ++j)
+		{
+			tilemap[i][j] = Tile::Empty;
+		}
+	}
 
 	heading = Heading::Right;
 	head = 0;
@@ -125,6 +137,29 @@ void RSnake::update_gameplay()
 		case Heading::Right: new_head.x += 1; break;
 	}
 
+#if 0
+	// Handle edges
+	if(new_head.x < 0)
+	{
+		reset();
+		return;
+	}
+	else if(new_head.x >= array_size_1(tilemap))
+	{
+		reset();
+		return;
+	}
+	if(new_head.y < 0)
+	{
+		reset();
+		return;
+	}
+	else if(new_head.y >= array_size_2(tilemap))
+	{
+		reset();
+		return;
+	}
+#else
 	// Handle edges
 	if(new_head.x < 0)
 	{
@@ -142,6 +177,7 @@ void RSnake::update_gameplay()
 	{
 		new_head.y = 0;
 	}
+#endif
 
 	switch(tilemap[new_head.x][new_head.y])
 	{
@@ -180,7 +216,7 @@ void RSnake::update_gameplay()
 
 		case Tile::Snake:
 		{
-			// TODO: Handle death
+			reset();
 			return;
 		}
 		break;
