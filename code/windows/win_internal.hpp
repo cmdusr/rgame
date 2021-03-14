@@ -18,10 +18,6 @@ namespace Windows
 		HWND  hWnd;
 		DWORD event_time;
 
-		// Input
-		rcom::Array<InputEvent, 64> input_queue;
-		uint32_t queue_count;
-
 		// Game
 		HMODULE gamelib;
 		I_Game* game;

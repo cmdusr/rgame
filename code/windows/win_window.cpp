@@ -99,7 +99,7 @@ void Windows::Window::handle_key_event(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 {
 	auto add_event = [this](const InputEvent& event)
 	{
-		internal->input_queue[internal->queue_count++] = event;
+		internal->game->inform(event);
 	};
 
 	switch(wParam)

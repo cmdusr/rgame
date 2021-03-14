@@ -11,7 +11,7 @@ public:
 	RSnake(GameImport);
 	GAME_API void init();
 	GAME_API void update();
-	GAME_API void inform(rcom::ArrayPtr<InputEvent>);
+	GAME_API void inform(InputEvent);
 private:
 	I_Platform*                 platform;
 	rcom::Array<InputEvent, 64> input_events;

@@ -27,5 +27,5 @@ class I_Game
 public:
 	GAME_API void init();
 	GAME_API void update();
-	GAME_API void inform(rcom::ArrayPtr<InputEvent>);
+	GAME_API void inform(InputEvent);
 };

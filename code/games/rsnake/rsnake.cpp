@@ -23,8 +23,7 @@ void RSnake::update()
 	num_events = 0;
 }
 
-void RSnake::inform(rcom::ArrayPtr<InputEvent> events)
+void RSnake::inform(InputEvent event)
 {
-	rcom::copy(input_events.to_bytes(), events.to_bytes());
-	num_events = events.size();
+	input_events[num_events++] = event;
 }
