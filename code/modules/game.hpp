@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../rcom/array_ptr.hpp"
 #include "../common/input.hpp"
 
 #define DLL_GAME
