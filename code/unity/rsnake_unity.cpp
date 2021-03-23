@@ -1,3 +1,3 @@
 #include "modules/game.cpp"
 
-#include "games/rsnake/rsnake.cpp"
+#include "rsnake/rsnake.cpp"

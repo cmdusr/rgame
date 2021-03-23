@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../modules/game.hpp"
-#include "../../common/data.hpp"
+#include "../modules/game.hpp"
+#include "../common/data.hpp"
 
 I_Game* get_game_api(GameImport);
 

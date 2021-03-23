@@ -1,5 +1,5 @@
 #include "rsnake.hpp"
-#include "../../modules/platform.hpp"
+#include "../modules/platform.hpp"
 #include <cstring>
 #include <cstdlib>
 #include <ctime>

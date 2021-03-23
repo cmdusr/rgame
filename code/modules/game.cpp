@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "../games/rsnake/rsnake.hpp"
+#include "../rsnake/rsnake.hpp"
 
 void I_Game::init()
 {
