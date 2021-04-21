@@ -140,14 +140,14 @@ void RSnake::update_gameplay()
 		case Heading::Right: new_head.x += 1; break;
 	}
 
-#if 0
+#if 1
 	// Handle edges
 	if(new_head.x < 0)
 	{
 		reset();
 		return;
 	}
-	else if(new_head.x >= array_size_1(tilemap))
+	else if(new_head.x >= tilemap.size<0>())
 	{
 		reset();
 		return;
@@ -157,7 +157,7 @@ void RSnake::update_gameplay()
 		reset();
 		return;
 	}
-	else if(new_head.y >= array_size_2(tilemap))
+	else if(new_head.y >= tilemap.size<1>())
 	{
 		reset();
 		return;
