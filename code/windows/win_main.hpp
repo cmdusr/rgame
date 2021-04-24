@@ -22,8 +22,8 @@ namespace Windows
 		Internal internal;
 		Window   window;
 
+		void init_gamelib();
 		void load_gamelib();
-		void reload_gamelib();
 		void refresh_gamelib();
 
 		void begin_rendering();

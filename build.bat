@@ -1,28 +1,11 @@
 @echo off
 
-goto SKIP_DEF
-
-:IS_FILE_LOCKED
-echo %1
-2>nul (>>%1 (call )) && (EXIT /B 0) || (EXIT /B 1)
-
-:SKIP_DEF
-
-set CC=cl.exe
-set CCFLAGS=/D_HAS_EXCEPTIONS=0 /nologo /I..\code /Zi
-set LDFLAGS=-incremental:no
-
-set Target=rgame
-set TargetPath=..\code\unity\windows_unity.cpp
-
-set Game=game
-set GamePath=..\code\unity\rsnake_unity.cpp
-
-rem Search for CC
-for %%X in (%CC%) do (set FOUND=%%~$PATH:X)
-if not defined FOUND (
+rem Check for cl.exe
+where.exe /q cl.exe
+if ERRORLEVEL 1 (
 	echo Error: Cannot find cl.exe. Setup your devlopment environment to include cl.exe
 	echo This can be done by using vcvarsall.bat if running from a console
+	echo Search for developer command prompt
 	goto END
 )
 
@@ -31,51 +14,20 @@ if not exist code (
 	goto END
 )
 
-if not exist bin (
-	mkdir bin
-)
+if not exist build mkdir build
 
-if not exist build (
-	mkdir build
-)
-
-call :IS_FILE_LOCKED bin/%Target%.exe
-set core_locked=%ERRORLEVEL%
-
-call :IS_FILE_LOCKED bin/%Game%.dll
-set game_locked=%ERRORLEVEL%
+rem Common compiler flags
+set CCFLAGS=/D_HAS_EXCEPTIONS=0 /nologo /I..\code /Zi
+set LDFLAGS=-incremental:no
 
 pushd build
 
-if %core_locked% EQU 0 (
-	%CC% %CCFLAGS% /Fe%Target% %TargetPath% /link %LDFLAGS% user32.lib shell32.lib gdi32.lib
-
-	if exist %Target%.exe (
-		move %Target%.exe ..\bin
-	)
-
-	if exist %Target%.pdb (
-		move %Target%.pdb ..\bin
-	)
-)
+rem Core rgame app
+cl %CCFLAGS% /Fergame ..\code\unity\windows_unity.cpp /link %LDFALGS% user32.lib shell32.lib gdi32.lib
 
 rem VisualStudio does not unload .pdb when .dll is unloaded.
 rem Create new .pdb so that it can be loaded and not distrub existing .pdb
-set Game_pdb=%Game%_%random%.pdb
-
-%CC% %CCFLAGS% /Fe%Game% %GamePath% /LD /link %LDFLAGS% /PDB:%Game_pdb% /Export:get_game_api
-
-if exist %Game_pdb% (
-	move /y %Game_pdb% ..\bin
-)
-
-if exist %game%.dll (
-	if %game_locked% EQU 0 (
-		move /y %game%.dll ..\bin
-	) else (
-		move /y %game%.dll ..\bin\%game%_temp.dll
-	)
-)
+cl %CCFLAGS% /Fegame_temp.dll ..\code\unity\rsnake_unity.cpp /LD /link %LDFLAGS% /PDB:game_%random%.pdb /Export:get_game_api
 
 popd
 

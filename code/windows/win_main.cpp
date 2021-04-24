@@ -5,8 +5,8 @@
 #include <cstdio>
 
 Windows::Platform::Platform() : I_Platform{},
-	internal{},
-	window{internal}
+internal{},
+window{ internal }
 {
 }
 
@@ -29,7 +29,7 @@ void Windows::Platform::setup_console()
 {
 	FILE* temp;
 	AllocConsole();
-	freopen_s(&temp, "CONIN$",  "r", stdin);
+	freopen_s(&temp, "CONIN$", "r", stdin);
 	freopen_s(&temp, "CONOUT$", "w", stdout);
 	freopen_s(&temp, "CONOUT$", "w", stderr);
 }
@@ -95,14 +95,30 @@ void Windows::Platform::refresh_gamelib()
 	internal.game->init();
 }
 
+void Windows::Platform::init_gamelib()
+{
+	const char* path      = internal.gamelib_path;
+	const char* temp_path = internal.temp_gamelib_path;
+	HMODULE     gamelib   = internal.gamelib;
+
+	if(check_file_exists(temp_path))
+	{
+		CopyFile(temp_path, path, false);
+		DeleteFile(temp_path);
+	}
+
+	load_gamelib();
+	internal.game->init();
+}
+
 void Windows::Platform::begin_rendering()
 {
 	// Make all draw commands to hdc
 	// Copy to real_hdc at end of drawing
 
-	HWND hWnd   = internal.hWnd;
-	HDC old_hdc = GetDC(hWnd);
-	HDC hDC     = CreateCompatibleDC(internal.old_hdc);
+	HWND hWnd    = internal.hWnd;
+	HDC  old_hdc = GetDC(hWnd);
+	HDC  hDC     = CreateCompatibleDC(internal.old_hdc);
 
 	RECT rect;
 	GetWindowRect(hWnd, &rect);
@@ -186,9 +202,7 @@ int Windows::Platform::main(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR 
 
 	window.init();
 
-	// Setup GameLib
-	load_gamelib();
-	internal.game->init();
+	init_gamelib();
 
 	for(;;)
 	{
